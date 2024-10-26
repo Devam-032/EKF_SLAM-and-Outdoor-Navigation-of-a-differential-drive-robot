@@ -1,0 +1,2 @@
+EKF_Localization_pkg
+-DCATKIN_DEVEL_PREFIX=/home/rover/EKF_Localisation/devel -DCMAKE_INSTALL_PREFIX=/home/rover/EKF_Localisation/install -G Unix Makefiles

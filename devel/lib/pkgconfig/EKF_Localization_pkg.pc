@@ -1,0 +1,8 @@
+prefix=/home/rover/EKF_Localisation/devel
+
+Name: EKF_Localization_pkg
+Description: Description of EKF_Localization_pkg
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

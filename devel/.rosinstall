@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/rover/EKF_Localisation/devel/setup.sh
