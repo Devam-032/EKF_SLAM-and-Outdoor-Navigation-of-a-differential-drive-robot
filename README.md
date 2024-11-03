@@ -104,6 +104,12 @@ EKF_Localisation/
 │   └── launch/
 │       └── ekf_localization.launch
 │
+├── ekf_slam/          # EKF SLAM scripts
+│   ├── scripts/
+│   │   └── EKF_SLAM.py
+│   └── launch/
+│       └── ekf_localization.launch
+│
 ├── outdoor_navigation/        # Navigation and path planning scripts
 │   ├── launch/
 │   └── config/
