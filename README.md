@@ -98,9 +98,15 @@ This repository contains a complete solution for **building, simulating, and nav
 ```
 EKF_Localisation/
 │
-├── ekf_localization/          # EKF Localization and SLAM scripts
+├── ekf_localization/          # EKF Localization scripts
 │   ├── scripts/
 │   │   └── ekf_localization.py
+│   └── launch/
+│       └── ekf_localization.launch
+│
+├── ekf_slam/                 # EKF SLAM scripts
+│   ├── scripts/
+│   │   └── EKF_SLAM.py
 │   └── launch/
 │       └── ekf_localization.launch
 │
