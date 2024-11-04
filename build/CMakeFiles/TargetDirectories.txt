@@ -77,3 +77,10 @@
 /home/rover/EKF_Localisation/build/EKF_Localization_pkg/CMakeFiles/install.dir
 /home/rover/EKF_Localisation/build/EKF_Localization_pkg/CMakeFiles/install/local.dir
 /home/rover/EKF_Localisation/build/EKF_Localization_pkg/CMakeFiles/install/strip.dir
+/home/rover/EKF_Localisation/build/EKF_SLAM/CMakeFiles/test.dir
+/home/rover/EKF_Localisation/build/EKF_SLAM/CMakeFiles/edit_cache.dir
+/home/rover/EKF_Localisation/build/EKF_SLAM/CMakeFiles/rebuild_cache.dir
+/home/rover/EKF_Localisation/build/EKF_SLAM/CMakeFiles/list_install_components.dir
+/home/rover/EKF_Localisation/build/EKF_SLAM/CMakeFiles/install.dir
+/home/rover/EKF_Localisation/build/EKF_SLAM/CMakeFiles/install/local.dir
+/home/rover/EKF_Localisation/build/EKF_SLAM/CMakeFiles/install/strip.dir

@@ -315,6 +315,15 @@ EKF_Localization_pkg_IS_TOP_LEVEL:STATIC=OFF
 //Value Computed by CMake
 EKF_Localization_pkg_SOURCE_DIR:STATIC=/home/rover/EKF_Localisation/src/EKF_Localization_pkg
 
+//Value Computed by CMake
+EKF_SLAM_BINARY_DIR:STATIC=/home/rover/EKF_Localisation/build/EKF_SLAM
+
+//Value Computed by CMake
+EKF_SLAM_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+EKF_SLAM_SOURCE_DIR:STATIC=/home/rover/EKF_Localisation/src/EKF_SLAM
+
 //Path to a program.
 EMPY_EXECUTABLE:FILEPATH=EMPY_EXECUTABLE-NOTFOUND
 
@@ -682,7 +691,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=5
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=6
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

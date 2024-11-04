@@ -65,11 +65,13 @@ CMAKE_BINARY_DIR = /home/rover/EKF_Localisation/build
 # The main recursive "all" target.
 all: gtest/all
 all: EKF_Localization_pkg/all
+all: EKF_SLAM/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
 preinstall: gtest/preinstall
 preinstall: EKF_Localization_pkg/preinstall
+preinstall: EKF_SLAM/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
@@ -80,6 +82,7 @@ clean: CMakeFiles/clean_test_results.dir/clean
 clean: CMakeFiles/doxygen.dir/clean
 clean: gtest/clean
 clean: EKF_Localization_pkg/clean
+clean: EKF_SLAM/clean
 .PHONY : clean
 
 #=============================================================================
@@ -130,6 +133,21 @@ EKF_Localization_pkg/clean: EKF_Localization_pkg/CMakeFiles/sensor_msgs_generate
 EKF_Localization_pkg/clean: EKF_Localization_pkg/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/clean
 EKF_Localization_pkg/clean: EKF_Localization_pkg/CMakeFiles/sensor_msgs_generate_messages_py.dir/clean
 .PHONY : EKF_Localization_pkg/clean
+
+#=============================================================================
+# Directory level rules for directory EKF_SLAM
+
+# Recursive "all" directory target.
+EKF_SLAM/all:
+.PHONY : EKF_SLAM/all
+
+# Recursive "preinstall" directory target.
+EKF_SLAM/preinstall:
+.PHONY : EKF_SLAM/preinstall
+
+# Recursive "clean" directory target.
+EKF_SLAM/clean:
+.PHONY : EKF_SLAM/clean
 
 #=============================================================================
 # Directory level rules for directory gtest

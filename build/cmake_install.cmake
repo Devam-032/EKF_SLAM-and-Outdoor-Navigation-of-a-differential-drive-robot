@@ -137,6 +137,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/rover/EKF_Localisation/build/gtest/cmake_install.cmake")
   include("/home/rover/EKF_Localisation/build/EKF_Localization_pkg/cmake_install.cmake")
+  include("/home/rover/EKF_Localisation/build/EKF_SLAM/cmake_install.cmake")
 
 endif()
 

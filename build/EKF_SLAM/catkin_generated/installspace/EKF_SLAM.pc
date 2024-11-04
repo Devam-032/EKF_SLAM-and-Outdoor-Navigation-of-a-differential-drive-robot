@@ -1,0 +1,8 @@
+prefix=/home/rover/EKF_Localisation/install
+
+Name: EKF_SLAM
+Description: Description of EKF_SLAM
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
