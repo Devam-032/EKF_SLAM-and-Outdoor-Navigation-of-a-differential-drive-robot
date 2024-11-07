@@ -3,6 +3,7 @@
 import rospy,math,numpy as np
 from gazebo_msgs.msg import ModelStates
 from nav_msgs.msg import Odometry
+from geometry_msgs.msg import PoseWithCovarianceStamped
 from sensor_msgs.msg import LaserScan
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
 
@@ -21,7 +22,7 @@ class EKF_Localization :
         self.approx_angular_position = [] # stores the estimated cylinder angular position
         self.approx_linear_distance = [] # sotres the estimated cylinder linear position
         self.cylinder_radii = 0 # this is to get the cylinder radii 
-        self.min_dist = 0.6 # this is to make cylinder pairs
+        self.min_dist = 0.3 # this is to make cylinder pairs
         self.sigma_r = 0.06 # This is to define standard deviation in the distance measurement 
         self.sigma_alpha = 0.01  # This is to define the standard deviation in the angle measurement
         self.mu_bar = np.zeros((3, 1))
@@ -35,7 +36,7 @@ class EKF_Localization :
         self.y_prev = 0
         self.theta_prev = 0
         self.final_covariance = np.eye(3)
-
+        self.pose_pub = rospy.Publisher("/ekf_pose_covariance", PoseWithCovarianceStamped, queue_size=10)
         # Wait for non-zero lidar data to initialize lidar_points
         while not rospy.is_shutdown():
             try:
@@ -197,7 +198,7 @@ class EKF_Localization :
             x = result1 * math.cos(normalize_angle(self.approx_angular_position[i]))
             y = result1 * math.sin(normalize_angle(self.approx_angular_position[i]))
             self.result.append([x,y])
-        #(self.approx_linear_distance)
+        
 
     def cylinder_cartesian_to_world(self):
         # Cylinder's co-ordinates transform from lidar to world co-ordinate system
@@ -206,7 +207,7 @@ class EKF_Localization :
             x_global = self.x_predicted + self.result[i][0] * math.cos(normalize_angle(self.theta)) - self.result[i][1] * math.sin(normalize_angle(self.theta))
             y_global = self.y_predicted + self.result[i][0] * math.sin(normalize_angle(self.theta)) + self.result[i][1] * math.cos(normalize_angle(self.theta))
             self.cylinder_final_estim_cordinates.append([x_global,y_global])
-        #(self.result)
+        
 
     def finding_closest_neighbours(self):
         # now comparing the distances between observed and reference cylinders and making pairs accordingly
@@ -227,7 +228,7 @@ class EKF_Localization :
 
                 else:
                     pass # Do Nothing
-            
+        print(self.match_pairs_left)
 
     def obs_model(self):
         # Implementing an observation model to obtain the requirred variables for the correction step for the EKF
@@ -300,6 +301,31 @@ class EKF_Localization :
         self.y_prev = self.y
         self.theta_prev = self.theta
 
+    def publish_pose_with_covariance(self):
+        pose_msg = PoseWithCovarianceStamped()
+        pose_msg.header.stamp = rospy.Time.now()
+        pose_msg.header.frame_id = "odom"  # Use the appropriate frame of reference
+        
+        # Setting the pose based on the mean (mu)
+        pose_msg.pose.pose.position.x = self.mu[0, 0]
+        pose_msg.pose.pose.position.y = self.mu[1, 0]
+        pose_msg.pose.pose.position.z = 0  # Assume planar navigation
+
+        # Convert orientation from Euler to quaternion
+        quat = quaternion_from_euler(0, 0, self.mu[2, 0])
+        pose_msg.pose.pose.orientation.x = quat[0]
+        pose_msg.pose.pose.orientation.y = quat[1]
+        pose_msg.pose.pose.orientation.z = quat[2]
+        pose_msg.pose.pose.orientation.w = quat[3]
+
+        # Fill in the covariance (flattened row-major order)
+        covariance_flat = self.final_covariance.flatten()
+        pose_msg.pose.covariance = [covariance_flat[i] if i < len(covariance_flat) else 0 for i in range(36)]
+
+        # Publish the message
+        self.pose_pub.publish(pose_msg)
+
+
     def run(self):
         rate = rospy.Rate(10)  # 10 Hz or any other desired rate
         while not rospy.is_shutdown():
@@ -312,6 +338,7 @@ class EKF_Localization :
             self.cylinder_cartesian_to_world()
             self.finding_closest_neighbours()
             self.obs_model()
+            self.publish_pose_with_covariance()
             rate.sleep()
 
 
