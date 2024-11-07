@@ -21,9 +21,9 @@ class EKF_Localization :
         self.approx_angular_position = [] # stores the estimated cylinder angular position
         self.approx_linear_distance = [] # sotres the estimated cylinder linear position
         self.cylinder_radii = 0 # this is to get the cylinder radii 
-        self.min_dist = 0 # this is to make cylinder pairs
-        self.sigma_r = 0 # This is to define standard deviation in the distance measurement 
-        self.sigma_alpha = 0  # This is to define the standard deviation in the angle measurement
+        self.min_dist = 0.6 # this is to make cylinder pairs
+        self.sigma_r = 0.06 # This is to define standard deviation in the distance measurement 
+        self.sigma_alpha = 0.01  # This is to define the standard deviation in the angle measurement
         self.mu_bar = np.zeros((3, 1))
         self.covariance = np.eye(3) * 1e-3 #initialization of the covariance matrix
         self.approx_angular_position = [] #initialization of the angular position of cylinder
@@ -34,15 +34,35 @@ class EKF_Localization :
         self.x_prev = 0
         self.y_prev = 0
         self.theta_prev = 0
+        self.final_covariance = np.eye(3)
+
+        # Wait for non-zero lidar data to initialize lidar_points
+        while not rospy.is_shutdown():
+            try:
+                msg = rospy.wait_for_message("/scan", LaserScan, timeout=1.0)
+                if any(r > 0 for r in msg.ranges):  # Check for non-zero values
+                    # Initialize lidar_points with valid ranges data
+                    self.lidar_points = [
+                        r if not (math.isnan(r) or math.isinf(r)) else msg.range_max
+                        for r in msg.ranges
+                    ]
+                    rospy.loginfo("Lidar data received and initialized.")
+                    break  # Exit loop once lidar_points is initialized
+                else:
+                    rospy.logwarn("Waiting for non-zero lidar data...")
+            except rospy.ROSException:
+                rospy.logwarn("Timeout waiting for /scan. Retrying...")
     
 
     def reference_coordinates(self, msg):
+        a2 = len(msg.pose) - 3
+        self.alpha = []  # Initialize as an empty list
 
-        self.alpha=list(range(10))
-        a2=len(msg.pose)
-        for i in range(0,a2):
-            self.alpha[i] = [msg.pose[4+i].position.x,msg.pose[4+i].position.y]                
-        # print(self.alpha)
+        for i in range(a2):
+            # Append each coordinate as a list
+            self.alpha.append([msg.pose[3+i].position.x, msg.pose[3+i].position.y])
+              
+        # #(self.alpha)
         # above, the reference co-ordinates of the objects is being obtainned 
     
     def callback_reset_counter(self, req):
@@ -108,14 +128,16 @@ class EKF_Localization :
         self.rot2_variance = alpha1 * abs(self.delta_rot2) + alpha2 * abs(self.delta_trans)
         control_covariance = np.diag([self.rot1_variance, self.trans_variance, self.rot2_variance])
 
-        self.covariance = np.dot(self.G_t, np.dot(self.covariance, self.G_t.T)) + np.dot(self.V, np.dot(control_covariance, self.V.T))
+        self.covariance = np.dot(self.G_t, np.dot(self.final_covariance, self.G_t.T)) + np.dot(self.V, np.dot(control_covariance, self.V.T))
         #Prediction Covariance is calculated here.
 
     def laser_callback(self,msg):
-        self.laser_points = msg.ranges
-        for i in range (0, len(self.laser_points)):
-            if math.isnan(self.laser_points[i]) or math.isinf(self.laser_points[i]):
-                self.laser_points[i]=msg.range_max
+        self.laser_points = [0]*len(msg.ranges)
+        for i in range(0,len(msg.ranges)):
+            if(math.isnan(msg.ranges[i]) or math.isinf(msg.ranges[i])):
+                self.laser_points[i] = msg.range_max
+            else: 
+                self.laser_points[i] = msg.ranges[i]
         #lidar_data being filtered and saved into an object
 
     def observed_cylinders(self):
@@ -130,10 +152,11 @@ class EKF_Localization :
                 jumps[i] = derivative
                 jumps_index.append(i)
         
-        cylin_detected,no_of_rays,sum_ray_indices,sum_depth=0,0,0,0        
-        
-        for i in range(0,len(jumps)):
-
+        cylin_detected,no_of_rays,sum_ray_indices,sum_depth,count,i=0,0,0,0,0,-1        
+        self.approx_linear_distance,self.approx_angular_position =[],[]
+        while(i<len(jumps)-1):
+            
+            i+=1
             if(jumps[i]<0 and cylin_detected==0): #a falling edge detected in the lidar's scan and currently not on a cylinder
                 cylin_detected = 1 #the first cylinder has been detected
                 no_of_rays += 1 #increment the number of rays that are falling on the cylinder
@@ -162,6 +185,9 @@ class EKF_Localization :
 
             else:
                 pass #do_nothing
+        # print(self.approx_linear_distance)
+        # print(self.approx_angular_position)
+        #(jumps)
 
     def cylinder_cartesian(self):
         self.result=[]
@@ -171,6 +197,7 @@ class EKF_Localization :
             x = result1 * math.cos(normalize_angle(self.approx_angular_position[i]))
             y = result1 * math.sin(normalize_angle(self.approx_angular_position[i]))
             self.result.append([x,y])
+        #(self.approx_linear_distance)
 
     def cylinder_cartesian_to_world(self):
         # Cylinder's co-ordinates transform from lidar to world co-ordinate system
@@ -179,6 +206,7 @@ class EKF_Localization :
             x_global = self.x_predicted + self.result[i][0] * math.cos(normalize_angle(self.theta)) - self.result[i][1] * math.sin(normalize_angle(self.theta))
             y_global = self.y_predicted + self.result[i][0] * math.sin(normalize_angle(self.theta)) + self.result[i][1] * math.cos(normalize_angle(self.theta))
             self.cylinder_final_estim_cordinates.append([x_global,y_global])
+        #(self.result)
 
     def finding_closest_neighbours(self):
         # now comparing the distances between observed and reference cylinders and making pairs accordingly
@@ -191,7 +219,7 @@ class EKF_Localization :
             for j in range(0,len(self.alpha)):
                 x_ref_cylin = self.alpha[j][0]
                 y_ref_cylin = self.alpha[j][1]
-                dist = math.sqrt((x_global_estim-x_ref_cylin)**2 + (y_global_estim-y_ref_cylin))
+                dist = math.sqrt((x_global_estim-x_ref_cylin)**2 + (y_global_estim-y_ref_cylin)**2)
                 if(dist < self.min_dist and flag[j]==0):# Checking if the same cylinder is not being matched multiple times
                     self.match_pairs_left.append([x_global_estim,y_global_estim])
                     self.match_pairs_right.append([x_ref_cylin,y_ref_cylin])
@@ -199,11 +227,12 @@ class EKF_Localization :
 
                 else:
                     pass # Do Nothing
+            
 
     def obs_model(self):
         # Implementing an observation model to obtain the requirred variables for the correction step for the EKF
         '''While implementing this code, I had a doubt that why we are repeating the step of recalculating the angle and distance info when we can do it in the previous state.'''
-        
+        #(len(self.match_pairs_left))
         for i in range(0,len(self.match_pairs_left)):
             
             x_estim = self.match_pairs_left[i][0]
@@ -249,7 +278,9 @@ class EKF_Localization :
 
             self.covariance = np.array(self.covariance)
 
-            k_gain = np.array(np.dot(np.dot(self.covariance,H_t),np.linalg.inv((np.dot(H_t,(self.covariance),H_t.T) + q_matrix)))) # to claculate the kalman gain for each observed cylinder
+            print(f"a1,b1 = {np.shape(self.covariance)}, a2,b2 = {np.shape(H_t)}, a3,b3 = {np.shape(q_matrix)}")
+
+            k_gain = np.dot(self.covariance,np.dot(H_t.T,np.linalg.inv(np.dot(H_t,np.dot(self.covariance,H_t.T)))+q_matrix)) # to claculate the kalman gain for each observed cylinder
 
             Innovation_matrix = np.array([
                 [z_matrix[0, 0] - h_matrix[0, 0]],  # distance difference
@@ -262,6 +293,8 @@ class EKF_Localization :
             Identity = np.eye(3) # Identity matrix for the final covariance calculation
 
             self.final_covariance = np.dot((Identity - np.dot(k_gain,H_t)),self.covariance) # final covariance calculation
+            #(len(self.match_pairs_left))
+        print(self.final_covariance)
 
         self.x_prev = self.x
         self.y_prev = self.y
