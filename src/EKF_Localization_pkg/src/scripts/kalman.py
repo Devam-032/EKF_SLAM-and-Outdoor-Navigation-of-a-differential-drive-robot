@@ -294,6 +294,9 @@ class EKF_Localization :
             Identity = np.eye(3) # Identity matrix for the final covariance calculation
 
             self.final_covariance = np.dot((Identity - np.dot(k_gain,H_t)),self.covariance) # final covariance calculation
+        if (len(self.match_pairs_left)==0):
+            self.mu = self.mu_bar
+            self.final_covariance = self.covariance
             #(len(self.match_pairs_left))
         print(self.final_covariance)
 
