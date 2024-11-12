@@ -21,8 +21,8 @@ class EKF_Localization :
         self.lidar_sub = rospy.Subscriber("/scan",LaserScan,self.laser_callback)#lidar_subscriber
         self.approx_angular_position = [] # stores the estimated cylinder angular position
         self.approx_linear_distance = [] # sotres the estimated cylinder linear position
-        self.cylinder_radii = 0 # this is to get the cylinder radii 
-        self.min_dist = 0.3 # this is to make cylinder pairs
+        self.cylinder_radii = .16 # this is to get the cylinder radii 
+        self.min_dist = 0.05 # this is to make cylinder pairs
         self.sigma_r = 0.06 # This is to define standard deviation in the distance measurement 
         self.sigma_alpha = 0.01  # This is to define the standard deviation in the angle measurement
         self.mu_bar = np.zeros((3, 1))
@@ -228,7 +228,7 @@ class EKF_Localization :
 
                 else:
                     pass # Do Nothing
-        print(self.match_pairs_left)
+        # print(self.match_pairs_left)
 
     def obs_model(self):
         # Implementing an observation model to obtain the requirred variables for the correction step for the EKF
@@ -279,7 +279,7 @@ class EKF_Localization :
 
             self.covariance = np.array(self.covariance)
 
-            print(f"a1,b1 = {np.shape(self.covariance)}, a2,b2 = {np.shape(H_t)}, a3,b3 = {np.shape(q_matrix)}")
+            # print(f"a1,b1 = {np.shape(self.covariance)}, a2,b2 = {np.shape(H_t)}, a3,b3 = {np.shape(q_matrix)}")
 
             k_gain = np.dot(self.covariance,np.dot(H_t.T,np.linalg.inv(np.dot(H_t,np.dot(self.covariance,H_t.T)))+q_matrix)) # to claculate the kalman gain for each observed cylinder
 
@@ -298,7 +298,7 @@ class EKF_Localization :
             self.mu = self.mu_bar
             self.final_covariance = self.covariance
             #(len(self.match_pairs_left))
-        print(self.final_covariance)
+        #print(self.final_covariance)
 
         self.x_prev = self.x
         self.y_prev = self.y
