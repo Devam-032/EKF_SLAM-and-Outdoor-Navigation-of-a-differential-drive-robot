@@ -1,2 +1,2 @@
 - setup-file:
-    local-name: /home/rover/EKF_Localisation/devel/setup.sh
+    local-name: /home/rover/EKF_SLAM-and-Outdoor-Navigation-of-a-differential-drive-robot/devel/setup.sh

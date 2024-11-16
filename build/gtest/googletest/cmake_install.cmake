@@ -2,7 +2,7 @@
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/rover/EKF_Localisation/install")
+  set(CMAKE_INSTALL_PREFIX "/home/rover/EKF_SLAM-and-Outdoor-Navigation-of-a-differential-drive-robot/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 

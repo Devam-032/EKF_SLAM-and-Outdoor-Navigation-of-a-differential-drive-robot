@@ -1,8 +1,8 @@
-# Install script for directory: /home/rover/EKF_Localisation/src/EKF_Localization_pkg
+# Install script for directory: /home/rover/EKF_SLAM-and-Outdoor-Navigation-of-a-differential-drive-robot/src/EKF_Localization_pkg
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/rover/EKF_Localisation/install")
+  set(CMAKE_INSTALL_PREFIX "/home/rover/EKF_SLAM-and-Outdoor-Navigation-of-a-differential-drive-robot/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -43,17 +43,17 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/rover/EKF_Localisation/build/EKF_Localization_pkg/catkin_generated/installspace/EKF_Localization_pkg.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/rover/EKF_SLAM-and-Outdoor-Navigation-of-a-differential-drive-robot/build/EKF_Localization_pkg/catkin_generated/installspace/EKF_Localization_pkg.pc")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/EKF_Localization_pkg/cmake" TYPE FILE FILES
-    "/home/rover/EKF_Localisation/build/EKF_Localization_pkg/catkin_generated/installspace/EKF_Localization_pkgConfig.cmake"
-    "/home/rover/EKF_Localisation/build/EKF_Localization_pkg/catkin_generated/installspace/EKF_Localization_pkgConfig-version.cmake"
+    "/home/rover/EKF_SLAM-and-Outdoor-Navigation-of-a-differential-drive-robot/build/EKF_Localization_pkg/catkin_generated/installspace/EKF_Localization_pkgConfig.cmake"
+    "/home/rover/EKF_SLAM-and-Outdoor-Navigation-of-a-differential-drive-robot/build/EKF_Localization_pkg/catkin_generated/installspace/EKF_Localization_pkgConfig-version.cmake"
     )
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/EKF_Localization_pkg" TYPE FILE FILES "/home/rover/EKF_Localisation/src/EKF_Localization_pkg/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/EKF_Localization_pkg" TYPE FILE FILES "/home/rover/EKF_SLAM-and-Outdoor-Navigation-of-a-differential-drive-robot/src/EKF_Localization_pkg/package.xml")
 endif()
 

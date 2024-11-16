@@ -2,7 +2,7 @@
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/rover/EKF_Localisation/install")
+  set(CMAKE_INSTALL_PREFIX "/home/rover/EKF_SLAM-and-Outdoor-Navigation-of-a-differential-drive-robot/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -44,7 +44,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/rover/EKF_Localisation/build/gtest/googletest/cmake_install.cmake")
+  include("/home/rover/EKF_SLAM-and-Outdoor-Navigation-of-a-differential-drive-robot/build/gtest/googletest/cmake_install.cmake")
 
 endif()
 
