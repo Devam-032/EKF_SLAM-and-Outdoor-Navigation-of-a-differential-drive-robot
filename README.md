@@ -109,7 +109,7 @@ EKF_Localisation/
 │   ├── scripts/
 │   │   └── EKF_SLAM.py
 │   └── launch/
-│       └── ekf_localization.launch
+│       └── ekf_SLAM.launch
 │
 ├── outdoor_navigation/        # Navigation and path planning scripts
 │   ├── launch/
