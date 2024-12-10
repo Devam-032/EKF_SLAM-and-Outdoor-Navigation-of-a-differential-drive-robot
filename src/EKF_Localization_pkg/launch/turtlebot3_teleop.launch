@@ -1,0 +1,7 @@
+<launch>
+  <!-- Launches the teleop node using teleop.py -->
+  <node pkg="EKF_Localization_pkg" type="teleop.py" name="turtlebot3_teleop" output="screen">
+    <!-- Optional: specify any parameters, e.g., setting the turtlebot3 model -->
+    <param name="model" value="burger"/>
+  </node>
+</launch>

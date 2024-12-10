@@ -53,10 +53,10 @@ RM = /home/rover/.local/lib/python3.8/site-packages/cmake/data/bin/cmake -E rm -
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/rover/EKF_Localisation/src
+CMAKE_SOURCE_DIR = /home/rover/EKF_SLAM-and-Outdoor-Navigation-of-a-differential-drive-robot/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/rover/EKF_Localisation/build
+CMAKE_BINARY_DIR = /home/rover/EKF_SLAM-and-Outdoor-Navigation-of-a-differential-drive-robot/build
 
 # Utility rule file for tests.
 
@@ -78,6 +78,6 @@ CMakeFiles/tests.dir/clean:
 .PHONY : CMakeFiles/tests.dir/clean
 
 CMakeFiles/tests.dir/depend:
-	cd /home/rover/EKF_Localisation/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/rover/EKF_Localisation/src /home/rover/EKF_Localisation/src /home/rover/EKF_Localisation/build /home/rover/EKF_Localisation/build /home/rover/EKF_Localisation/build/CMakeFiles/tests.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/rover/EKF_SLAM-and-Outdoor-Navigation-of-a-differential-drive-robot/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/rover/EKF_SLAM-and-Outdoor-Navigation-of-a-differential-drive-robot/src /home/rover/EKF_SLAM-and-Outdoor-Navigation-of-a-differential-drive-robot/src /home/rover/EKF_SLAM-and-Outdoor-Navigation-of-a-differential-drive-robot/build /home/rover/EKF_SLAM-and-Outdoor-Navigation-of-a-differential-drive-robot/build /home/rover/EKF_SLAM-and-Outdoor-Navigation-of-a-differential-drive-robot/build/CMakeFiles/tests.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/tests.dir/depend
 

@@ -67,14 +67,14 @@ set(EKF_SLAM_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("FALSE" STREQUAL "TRUE")
-  set(EKF_SLAM_SOURCE_PREFIX /home/rover/EKF_Localisation/src/EKF_SLAM)
-  set(EKF_SLAM_DEVEL_PREFIX /home/rover/EKF_Localisation/devel)
+  set(EKF_SLAM_SOURCE_PREFIX /home/rover/EKF_SLAM-and-Outdoor-Navigation-of-a-differential-drive-robot/src/EKF_SLAM)
+  set(EKF_SLAM_DEVEL_PREFIX /home/rover/EKF_SLAM-and-Outdoor-Navigation-of-a-differential-drive-robot/devel)
   set(EKF_SLAM_INSTALL_PREFIX "")
   set(EKF_SLAM_PREFIX ${EKF_SLAM_DEVEL_PREFIX})
 else()
   set(EKF_SLAM_SOURCE_PREFIX "")
   set(EKF_SLAM_DEVEL_PREFIX "")
-  set(EKF_SLAM_INSTALL_PREFIX /home/rover/EKF_Localisation/install)
+  set(EKF_SLAM_INSTALL_PREFIX /home/rover/EKF_SLAM-and-Outdoor-Navigation-of-a-differential-drive-robot/install)
   set(EKF_SLAM_PREFIX ${EKF_SLAM_INSTALL_PREFIX})
 endif()
 
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/rover/EKF_Localisation/install/lib;/home/rover/ydlidar_ws/devel/lib;/opt/ros/noetic/lib)
+    foreach(path /home/rover/EKF_SLAM-and-Outdoor-Navigation-of-a-differential-drive-robot/install/lib;/home/rover/ydlidar_ws/devel/lib;/opt/ros/noetic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)

@@ -17,6 +17,7 @@ This repository contains a complete solution for **building, simulating, and nav
     - Detected objects (cylinders)
     - Error ellipses for covariance visualization  
 
+![EKF Localization Demo](images/Localization_Setup.png)
 - **EKF SLAM**:
   - Implements **SLAM (Simultaneous Localization and Mapping)** for mapping an environment and localizing the robot within it.
   - Uses **odometry, LiDAR, and landmarks** to incrementally build a map and track the robot’s pose.
@@ -108,7 +109,7 @@ EKF_Localisation/
 │   ├── scripts/
 │   │   └── EKF_SLAM.py
 │   └── launch/
-│       └── ekf_localization.launch
+│       └── ekf_SLAM.launch
 │
 ├── outdoor_navigation/        # Navigation and path planning scripts
 │   ├── launch/
